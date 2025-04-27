@@ -89,9 +89,6 @@ const ProductModal: React.FC = () => {
                     <div className="flex justify-between items-start">
                       <div>
                         <p className="font-medium text-gray-900 dark:text-white">{pkg.nama}</p>
-                        <p className="text-blue-600 dark:text-blue-400 font-bold mt-1">
-                          {pkg.durasi[0]?.harga || 'N/A'}
-                        </p>
                       </div>
                       {selectedPackage === pkg && (
                         <span className="bg-blue-600 rounded-full p-1 text-white">
