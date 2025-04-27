@@ -94,10 +94,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onClose }) => {
           >
             Login
           </button>
-          
-          <div className="mt-4 text-xs text-center text-gray-600 dark:text-gray-400">
-            <p>Hint: Use "admin" as username and "admin123" as password for demo</p>
-          </div>
+    
         </form>
       </div>
     </div>
