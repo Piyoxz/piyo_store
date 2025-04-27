@@ -9,7 +9,15 @@ const ProductModal: React.FC = () => {
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(
     selectedProduct?.paket[0] || null
   );
+  const [selectedDuration, setSelectedDuration] = useState<any | null>(
+    selectedPackage?.durasi[0] || null
+  );
   const [quantity, setQuantity] = useState(1);
+
+  const handlePackageSelection = (pkg: Package) => {
+    setSelectedPackage(pkg);
+    setSelectedDuration(pkg.durasi[0]); // Set durasi pertama sebagai default
+  };
 
   // Jika tidak ada produk yang dipilih, kembalikan null
   if (!selectedProduct) return null;
@@ -18,13 +26,14 @@ const ProductModal: React.FC = () => {
 
   // Fungsi untuk mengarahkan ke WhatsApp
   const redirectToWhatsApp = () => {
-    if (!selectedPackage) return;
+    if (!selectedPackage || selectedDuration) return;
 
     const message = encodeURIComponent(
       `Halo! Saya ingin memesan:\n\n` +
         `Produk: ${selectedProduct.platform}\n` +
         `Paket: ${selectedPackage.nama}\n` +
-        `Harga: Rp ${selectedPackage.durasi[0]?.harga?.toLocaleString('id-ID') || 'N/A'}\n` +
+        `Durasi: ${selectedDuration.label}\n` +
+        `Harga: Rp ${selectedDuration.harga?.toLocaleString('id-ID') || 'N/A'}\n` +
         `Jumlah: ${quantity}\n\n` +
         `Mohon informasikan detail pembayaran. Terima kasih!`
     );
@@ -75,7 +84,7 @@ const ProductModal: React.FC = () => {
                         ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/30 dark:border-blue-500'
                         : 'border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-800'
                     }`}
-                    onClick={() => setSelectedPackage(pkg)}
+                    onClick={() => handlePackageSelection(pkg)}
                   >
                     <div className="flex justify-between items-start">
                       <div>
@@ -94,6 +103,40 @@ const ProductModal: React.FC = () => {
                 ))}
               </div>
             </div>
+
+            {/* Pilihan Durasi */}
+            {selectedPackage && (
+              <div className="mb-6">
+                <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-3">Duration Options</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {selectedPackage.durasi.map((duration, index) => (
+                    <button
+                      key={index}
+                      className={`p-4 border rounded-lg text-left transition-all duration-300 ${
+                        selectedDuration === duration
+                          ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/30 dark:border-blue-500'
+                          : 'border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-800'
+                      }`}
+                      onClick={() => setSelectedDuration(duration)}
+                    >
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="font-medium text-gray-900 dark:text-white">{duration.lama}</p>
+                          <p className="text-blue-600 dark:text-blue-400 font-bold mt-1">
+                            {duration.harga ? `Rp ${duration.harga.toLocaleString('id-ID')}` : 'N/A'}
+                          </p>
+                        </div>
+                        {selectedDuration === duration && (
+                          <span className="bg-blue-600 rounded-full p-1 text-white">
+                            <Check className="h-4 w-4" />
+                          </span>
+                        )}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Input Jumlah */}
             <div className="mb-6">
@@ -150,9 +193,13 @@ const ProductModal: React.FC = () => {
                   <span className="font-medium text-gray-900 dark:text-white">{selectedPackage.nama}</span>
                 </div>
                 <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-700 dark:text-gray-300">Duration:</span>
+                  <span className="font-medium text-gray-900 dark:text-white">{selectedDuration?.label || 'N/A'}</span>
+                </div>
+                <div className="flex justify-between items-center mb-2">
                   <span className="text-gray-700 dark:text-gray-300">Unit Price:</span>
                   <span className="font-medium text-gray-900 dark:text-white">
-                    {selectedPackage.durasi[0]?.harga || 'N/A'}
+                    {selectedDuration?.harga ? `Rp ${selectedDuration.harga.toLocaleString('id-ID')}` : 'N/A'}
                   </span>
                 </div>
                 <div className="flex justify-between items-center mb-2">
@@ -162,8 +209,8 @@ const ProductModal: React.FC = () => {
                 <div className="border-t border-gray-300 dark:border-gray-600 my-2 pt-2 flex justify-between items-center">
                   <span className="font-bold text-gray-900 dark:text-white">Total:</span>
                   <span className="font-bold text-blue-600 dark:text-blue-400">
-                    {selectedPackage.durasi[0]?.harga
-                      ? `Rp ${(selectedPackage.durasi[0].harga * quantity).toLocaleString()}`
+                    {selectedDuration?.harga
+                      ? `Rp ${(selectedDuration.harga * quantity).toLocaleString()}`
                       : 'N/A'}
                   </span>
                 </div>
@@ -174,7 +221,7 @@ const ProductModal: React.FC = () => {
             <button
               onClick={redirectToWhatsApp}
               className="w-full py-3 px-4 bg-green-600 hover:bg-green-700 text-white rounded-lg flex items-center justify-center transition-colors duration-300"
-              disabled={!selectedPackage}
+              disabled={!selectedPackage || !selectedDuration}
             >
               <ShoppingCart className="h-5 w-5 mr-2" />
               Order Now via WhatsApp
