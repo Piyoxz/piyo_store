@@ -191,7 +191,7 @@ const ProductModal: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-gray-700 dark:text-gray-300">Duration:</span>
-                  <span className="font-medium text-gray-900 dark:text-white">{selectedDuration?.label || 'N/A'}</span>
+                  <span className="font-medium text-gray-900 dark:text-white">{selectedDuration?.lama || 'N/A'}</span>
                 </div>
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-gray-700 dark:text-gray-300">Unit Price:</span>
