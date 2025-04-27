@@ -32,7 +32,7 @@ const ProductModal: React.FC = () => {
       `Halo! Saya ingin memesan:\n\n` +
         `Produk: ${selectedProduct.platform}\n` +
         `Paket: ${selectedPackage.nama}\n` +
-        `Durasi: ${selectedDuration.label}\n` +
+        `Durasi: ${selectedDuration.lama}\n` +
         `Harga: Rp ${selectedDuration.harga?.toLocaleString('id-ID') || 'N/A'}\n` +
         `Jumlah: ${quantity}\n\n` +
         `Mohon informasikan detail pembayaran. Terima kasih!`
