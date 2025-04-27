@@ -26,7 +26,7 @@ const ProductModal: React.FC = () => {
 
   // Fungsi untuk mengarahkan ke WhatsApp
   const redirectToWhatsApp = () => {
-    if (!selectedPackage || selectedDuration) return;
+    if (!selectedPackage || !selectedDuration) return;
 
     const message = encodeURIComponent(
       `Halo! Saya ingin memesan:\n\n` +
