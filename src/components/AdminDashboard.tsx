@@ -94,7 +94,7 @@ const AdminDashboard: React.FC = () => {
     const productData: Product = {
       ...formData,
       id: editingProduct ? editingProduct.id : Date.now().toString(),
-      logo: formData.platform.toLowerCase().replace(/\s+/g, '-'),
+      logo: editingProduct ? editingProduct.logo : 'https://i.pinimg.com/474x/71/d4/91/71d4914d6a437aade4775d0cefcb9804.jpg',
       note: cleanedNotes,
     };
 
