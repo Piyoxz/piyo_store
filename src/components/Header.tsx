@@ -14,9 +14,9 @@ const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
-  });
+  const savedTheme = localStorage.getItem('theme');
+  return savedTheme === 'dark' ? true : false; // Default ke light jika tidak ada preferensi 'dark'
+});
 
   useEffect(() => {
     if (isDarkMode) {
